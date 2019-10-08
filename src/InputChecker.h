@@ -67,10 +67,10 @@ namespace Huobi {
                 throw HuobiApiException(HuobiApiException::INPUT_ERROR,
                         "[Input] Symbol is mandatory");
             }
-            if (isSpecialChar(symbol.c_str())) {
-                throw HuobiApiException(HuobiApiException::INPUT_ERROR,
-                        "[Input] " + symbol + " is invalid symbol");
-            }
+            //if (isSpecialChar(symbol.c_str())) {
+            //    throw HuobiApiException(HuobiApiException::INPUT_ERROR,
+            //            "[Input] " + symbol + " is invalid symbol");
+            //}
             return checker();
         }
 
