@@ -159,6 +159,7 @@ namespace Huobi {
         req->connectionHandler = [symbols, step](WebSocketConnection * connection) {
             for (std::string symbol : symbols) {
                 std::string tmp = Channels::priceDepthChannel(symbol, step);
+                Logger::setlogMode(1);
                 Logger::WriteLog("Send Subscription = %s", tmp.c_str());
                 connection->send(tmp);
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -166,6 +167,7 @@ namespace Huobi {
         };
 
         req->JsonParser = [](const JsonWrapper & json) {
+            Logger::setlogMode(1);
             Logger::WriteLog("JsonParser() get json size=%Ld", json.size());
             ChannelParser parser = ChannelParser(json.getString("ch"));
             PriceDepthEvent priceDepthEvent;
