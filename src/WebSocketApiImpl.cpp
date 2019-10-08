@@ -158,7 +158,7 @@ namespace Huobi {
 
         req->connectionHandler = [symbols, step](WebSocketConnection * connection) {
             for (std::string symbol : symbols) {
-                std:string tmp = Channels::priceDepthChannel(symbol, step);
+                std::string tmp = Channels::priceDepthChannel(symbol, step);
                 Logger::WriteLog("Send Subscription = %s", tmp);
                 connection->send(tmp);
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
