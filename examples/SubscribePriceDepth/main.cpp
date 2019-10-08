@@ -11,11 +11,19 @@ using namespace Huobi;
 using namespace std;
 time_t timer;
 
+#if 0
+    #define SERVER_URL "wss://www.hbdm.com/ws"
+    #define SYMBOL "BTC_CQ"
+#else
+    #define SERVER_URL "wss://api.huobi.pro"
+    #define SYMBOL "btcusdt"
+#endif
+
 int main(int argc, char** argv) {
     SubscriptionOptions options;
-    options.url = "wss://api.huobi.pro";
-    SubscriptionClient* client = createSubscriptionClient(options); 
-    client->subscribePriceDepthEvent("btcusdt", [](PriceDepthEvent priceDepthEvent) {
+    options.url = SERVER_URL;
+    SubscriptionClient* client = createSubscriptionClient(options);
+    client->subscribePriceDepthEvent(SYMBOL, [](PriceDepthEvent priceDepthEvent) {
         time(&timer);
         cout << "Local: " << timer << "  Server: " << priceDepthEvent.timestamp << endl;
         cout << "Symbol: " << priceDepthEvent.symbol << endl;
