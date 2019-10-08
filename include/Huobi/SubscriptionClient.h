@@ -72,6 +72,10 @@ namespace Huobi {
                 const char* symbols,
                 const std::function<void(const PriceDepthEvent&) >& callback,
                 const std::function<void(HuobiApiException&)>& errorHandler = std::function<void(HuobiApiException&)>()) = 0;
+        virtual void subscribePriceDepthEventCT(
+                const char* symbols,
+                const std::function<void(const PriceDepthEvent&) >& callback,
+                const std::function<void(HuobiApiException&)>& errorHandler = std::function<void(HuobiApiException&)>()) = 0;
 
         /**
          * Subscribe 24 hours trade statistics event. If statistics is generated, server will send the
@@ -144,6 +148,11 @@ namespace Huobi {
          */
         
         virtual void subscribePriceDepthEvent(
+                const char* symbols,
+                DepthStep step,
+                const std::function<void(const PriceDepthEvent&) >& callback,
+                const std::function<void(HuobiApiException&)>& errorHandler = std::function<void(HuobiApiException&)>()) = 0;
+        virtual void subscribePriceDepthEventCT(
                 const char* symbols,
                 DepthStep step,
                 const std::function<void(const PriceDepthEvent&) >& callback,
