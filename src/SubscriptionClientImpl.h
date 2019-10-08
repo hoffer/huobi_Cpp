@@ -88,6 +88,11 @@ namespace Huobi {
                 const std::function<void(const PriceDepthEvent&) >& callback,
                 const std::function<void(HuobiApiException&)>& errorHandler = std::function<void(HuobiApiException&)>()) override;
 
+        void subscribePriceDepthEventCT(
+                const char* symbols,
+                const std::function<void(const PriceDepthEvent&) >& callback,
+                const std::function<void(HuobiApiException&)>& errorHandler = std::function<void(HuobiApiException&)>()) override;
+
         void subscribe24HTradeStatisticsEvent(
                 const char* symbols,
                 const std::function<void(const TradeStatisticsEvent&) >& callback,
@@ -110,6 +115,12 @@ namespace Huobi {
 
 
         void subscribePriceDepthEvent(
+                const char* symbols,
+                DepthStep step,
+                const std::function<void(const PriceDepthEvent&) >& callback,
+                const std::function<void(HuobiApiException&)>& errorHandler = std::function<void(HuobiApiException&)>()) override;
+
+        void subscribePriceDepthEventCT(
                 const char* symbols,
                 DepthStep step,
                 const std::function<void(const PriceDepthEvent&) >& callback,

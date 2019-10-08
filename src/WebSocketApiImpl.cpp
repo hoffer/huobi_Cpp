@@ -147,6 +147,62 @@ namespace Huobi {
         return req;
     }
 
+    WebSocketRequest* WebSocketApiImpl::subscribePriceDepthEventCT(
+            const std::list<std::string>& symbols,
+            DepthStep step,
+            const std::function<void(const PriceDepthEvent&) >& callback,
+            const std::function<void(HuobiApiException&)>& errorHandler) {
+        InputChecker::checker()->checkCallback(callback);
+
+        auto req = new WebSocketRequestImpl<PriceDepthEvent>();
+
+        req->connectionHandler = [symbols, step](WebSocketConnection * connection) {
+            for (std::string symbol : symbols) {
+                std:string tmp = Channels::priceDepthChannel(symbol, step);
+                Logger::WriteLog("Send Subscription = %s", tmp);
+                connection->send(tmp);
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+        };
+
+        req->JsonParser = [](const JsonWrapper & json) {
+            Logger::WriteLog("JsonParser() get json size=%Ld", json.size());
+            ChannelParser parser = ChannelParser(json.getString("ch"));
+            PriceDepthEvent priceDepthEvent;
+            priceDepthEvent.symbol = parser.getSymbol();
+            priceDepthEvent.timestamp = TimeService::convertCSTInMillisecondToUTC(json.getLong("ts"));
+            JsonWrapper tick = json.getJsonObjectOrArray("tick");
+            JsonWrapper bids = tick.getJsonObjectOrArray("bids");
+            JsonWrapper asks = tick.getJsonObjectOrArray("asks");
+            PriceDepth depth;
+            std::vector<DepthEntry>bidsves;
+            for (int i = 0; i < bids.size(); i++) {
+                DepthEntry de;
+                JsonWrapper item = bids.getArrayAt(i);
+                de.price = item.getDecimalAt(0);
+                de.amount = item.getDecimalAt(1);
+                bidsves.push_back(de);
+            }
+            std::vector<DepthEntry>asksves;
+            for (int i = 0; i < asks.size(); i++) {
+                DepthEntry de;
+                JsonWrapper item = asks.getArrayAt(i);
+                de.price = item.getDecimalAt(0);
+                de.amount = item.getDecimalAt(1);
+                asksves.push_back(de);
+            }
+            depth.bids = bidsves;
+            depth.asks = asksves;
+            priceDepthEvent.data = depth;
+            return priceDepthEvent;
+        };
+
+        req->isNeedSignature = false;
+        req->Callback = callback;
+        req->errorHandler = errorHandler;
+        return req;
+    }
+
     WebSocketRequest* WebSocketApiImpl::subscribe24HTradeStatisticsEvent(
             const std::list<std::string>& symbols,
             const std::function<void(const TradeStatisticsEvent&) >& callback,

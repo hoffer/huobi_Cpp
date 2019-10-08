@@ -56,6 +56,12 @@ namespace Huobi {
                 const std::function<void(const PriceDepthEvent&) >& callback,
                 const std::function<void(HuobiApiException&)>& errorHandler);
 
+        WebSocketRequest* subscribePriceDepthEventCT(
+                const std::list<std::string>& symbols,
+                DepthStep step,
+                const std::function<void(const PriceDepthEvent&) >& callback,
+                const std::function<void(HuobiApiException&)>& errorHandler);
+
         WebSocketRequest* subscribe24HTradeStatisticsEvent(
                 const std::list<std::string>& symbols,
                 const std::function<void(const TradeStatisticsEvent&) >& callback,

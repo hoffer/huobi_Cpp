@@ -174,6 +174,14 @@ namespace Huobi {
         subscribePriceDepthEvent(symbols, DepthStep::step0, callback, errorHandler);
     }
 
+    void SubscriptionClientImpl::subscribePriceDepthEventCT(
+            const char* symbols,
+            const std::function<void(const PriceDepthEvent&) >& callback,
+            const std::function<void(HuobiApiException&)>& errorHandler) {
+        //        createConnection(impl->subscribePriceDepthEvent(parseSymbols(symbols), callback, errorHandler));
+        subscribePriceDepthEventCT(symbols, DepthStep::step0, callback, errorHandler);
+    }
+
     void SubscriptionClientImpl::subscribe24HTradeStatisticsEvent(
             const char* symbols,
             const std::function<void(const TradeStatisticsEvent&) >& callback,
@@ -208,6 +216,14 @@ namespace Huobi {
             const std::function<void(const PriceDepthEvent&) >& callback,
             const std::function<void(HuobiApiException&)>& errorHandler) {
         createConnection(impl->subscribePriceDepthEvent(parseSymbols(symbols), step, callback, errorHandler));
+    }
+
+    void SubscriptionClientImpl::subscribePriceDepthEventCT(
+            const char* symbols,
+            DepthStep step,
+            const std::function<void(const PriceDepthEvent&) >& callback,
+            const std::function<void(HuobiApiException&)>& errorHandler) {
+        createConnection(impl->subscribePriceDepthEventCT(parseSymbols(symbols), step, callback, errorHandler));
     }
 
     void SubscriptionClientImpl::subscribeMarketBBOEvent(
