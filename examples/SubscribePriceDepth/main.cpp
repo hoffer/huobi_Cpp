@@ -11,7 +11,7 @@ using namespace Huobi;
 using namespace std;
 time_t timer;
 
-#if 0
+#if 1
     #define SERVER_URL "wss://www.hbdm.com/ws"
     #define SYMBOL "BTC_CQ"
 #else
@@ -22,6 +22,7 @@ time_t timer;
 int main(int argc, char** argv) {
     SubscriptionOptions options;
     options.url = SERVER_URL;
+    Logger::setlogMode(1);
     SubscriptionClient* client = createSubscriptionClient(options);
     client->subscribePriceDepthEvent(SYMBOL, [](PriceDepthEvent priceDepthEvent) {
         time(&timer);

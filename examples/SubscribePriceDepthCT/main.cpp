@@ -22,6 +22,7 @@ time_t timer;
 int main(int argc, char** argv) {
     SubscriptionOptions options;
     options.url = SERVER_URL;
+    Logger::setlogMode(1);
     SubscriptionClient* client = createSubscriptionClient(options);
     client->subscribePriceDepthEventCT(SYMBOL, [](PriceDepthEvent priceDepthEvent) {
         time(&timer);
