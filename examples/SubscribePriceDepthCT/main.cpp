@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     SubscriptionOptions options;
     options.url = SERVER_URL;
     SubscriptionClient* client = createSubscriptionClient(options);
-    client->subscribePriceDepthEventCT("BTC_CQ", [](PriceDepthEvent priceDepthEvent) {
+    client->subscribePriceDepthEventCT(SYMBOL, [](PriceDepthEvent priceDepthEvent) {
         time(&timer);
         cout << "Local: " << timer << "  Server: " << priceDepthEvent.timestamp << endl;
         cout << "Symbol: " << priceDepthEvent.symbol << endl;
