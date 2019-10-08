@@ -168,7 +168,7 @@ namespace Huobi {
 
         req->JsonParser = [](const JsonWrapper & json) {
             Logger::setlogMode(1);
-            Logger::WriteLog("JsonParser() get json size=%Ld", json.size());
+            Logger::WriteLog("JsonParser() get json");
             ChannelParser parser = ChannelParser(json.getString("ch"));
             PriceDepthEvent priceDepthEvent;
             priceDepthEvent.symbol = parser.getSymbol();
